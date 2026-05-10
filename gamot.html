@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAFTAR NG GAMOT – PROPESYONAL NA MEDIKAL NA REFERENSYA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85)), url('https://uploads.onecompiler.io/44ged4s2f/44np468n8/orca-image--1881887233.jpeg.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #f8fafc;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* WARNING OVERLAY */
+        .warning-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.98);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .warning-overlay h2 {
+            font-size: 1.8rem;
+            color: #ff4d4f;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .warning-overlay p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            line-height: 1.8;
+        }
+
+        .confirm-btn {
+            padding: 1rem 3rem;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .confirm-btn:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+            transform: scale(1.05);
+        }
+
+        /* HEADER */
+        .header {
+            background: rgba(15, 23, 42, 0.9);
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border-bottom: 3px solid #3b82f6;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header h1 {
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: #93c5fd;
+        }
+
+        .header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        /* ALERT BANNER */
+        .alert-banner {
+            background: linear-gradient(90deg, rgba(245, 158, 11, 0.9), rgba(217, 119, 6, 0.9));
+            color: #fffbeb;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 500;
+            margin: 1.5rem 1rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .alert-banner i {
+            margin-right: 0.5rem;
+        }
+
+        /* MAIN CONTAINER */
+        .category-container {
+            max-width: 100%;
+            padding: 0 1rem 3rem;
+            margin: 0 auto;
+        }
+
+        /* CATEGORY CARDS */
+        .category-card {
+            background: rgba(30, 41, 59, 0.85);
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            backdrop-filter: blur(8px);
+        }
+
+        .category-title {
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            padding: 1.2rem 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .category-title i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+
+        .meds-list {
+            padding: 1.5rem;
+        }
+
+        /* MEDICINE CARDS - ORGANIZED LAYOUT */
+        .med-card {
+            background: rgba(51, 65, 85, 0.8);
+            border-radius: 10px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            border-left: 4px solid #3b82f6;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem; /* Space between name/aliases and button */
+        }
+
+        .med-card:hover {
+            background: rgba(51, 65, 85, 0.95);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .med-info {
+            flex: 1 1 200px; /* Flexible width para magkasya */
+        }
+
+        .med-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #93c5fd;
+            margin-bottom: 0.3rem;
+        }
+
+        .med-aliases {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        /* UNIFORM SIZE BUTTONS */
+        .view-details-btn {
+            flex: 0 0 160px; /* PAREHONG SUKAT LAHAT NG BUTTON */
+            padding: 0.6rem 0; /* Pantay na padding */
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center; /* Centered text */
+        }
+
+        .view-details-btn:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            transform: scale(1.02);
+        }
+
+        /* MEDICINE DETAILS MODAL */
+        .med-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .modal-content {
+            background: rgba(30, 41, 59, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: transparent;
+            color: #94a3b8;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .close-modal-btn:hover {
+            color: #f8fafc;
+        }
+
+        .modal-med-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #93c5fd;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-med-aliases {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #475569;
+        }
+
+        .modal-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #60a5fa;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 2rem 1rem;
+            text-align: center;
+            border-top: 3px solid #3b82f6;
+            margin-top: 2rem;
+        }
+
+        .footer .powered-by {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #93c5fd;
+            margin-bottom: 0.8rem;
+        }
+
+        .footer .disclaimer {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        /* RESPONSIVE ADJUSTMENTS */
+        @media (min-width: 600px) {
+            .category-container {
+                max-width: 900px;
+            }
+
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .category-title {
+                font-size: 1.4rem;
+            }
+
+            .view-details-btn {
+                flex: 0 0 180px; /* Mas malaki konti ang button sa malaking screen */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- WARNING OVERLAY -->
+    <div class="warning-overlay" id="warningOverlay">
+        <h2><i class="fas fa-exclamation-triangle"></i> BABALA NG PROPESYONAL</h2>
+        <p>
+            Ang listahang ito ay PARA SA REFERENSYA LAMANG. HINDI ITO PAMALIT SA PAYO, DIAGNOSIS, O PAGGAMOT NG DOKTOR O PARMASYUTIKO.<br><br>
+            Palaging kumunsulta sa kwalipikadong propesyonal bago kumuha ng anumang gamot. Ang maling paggamit, maling dosis, o pag-inom ng gamot nang walang reseta ay maaaring magdulot ng malubhang epekto, pagkalason, o kamatayan.
+        </p>
+        <button class="confirm-btn" id="confirmBtn">Naiintindihan Ko Na</button>
+    </div>
+
+    <!-- HEADER -->
+    <header class="header">
+        <h1><i class="fas fa-medkit"></i> TINGNAN LAHAT NG GAMOT</h1>
+        <p>PROPESYONAL NA MEDIKAL NA REFERENSYA PARA SA MGA INAASAHANG TAGAPAGALAGA</p>
+    </header>
+
+    <!-- ALERT BANNER -->
+    <div class="alert-banner">
+        <p><i class="fas fa-info-circle"></i> <strong>PAALALA:</strong> Ang impormasyong ito ay para sa REFERENSYA LAMANG. Palaging kumunsulta sa doktor o parmasyutiko bago kumuha ng gamot.</p>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="category-container">
+        <!-- FEVER, PAIN, HEADACHE -->
+        <div class="category-card">
+            <div class="category-title">
+                <i class="fas fa-thermometer-three-quarters"></i> PARA SA LAGNAT, SAKIT, AT SAKIT NG ULONG
+            </div>
+            <div class="meds-list">
+                <div class="med-card">
+                    <div class="med-info">
+                        <div class="med-name">Paracetamol</div>
+                        <div class="med-aliases">Biogesic, Tempra, Tylenol</div>
+                    </div>
+                    <button class="view-details-btn" data-med="paracetamol">Tingnan Ang Detalye</button>
+                </div>
+
+                <div class="med-card">
+                    <div class="med-info">
+                        <div class="med-name">Ibuprofen</div>
+                        <div class="med-aliases">Advil, Alaxan, Dolan</div>
+                    </div>
+                    <button class="view-details-btn" data-med="ibuprofen">Tingnan Ang Detalye</button>
+                </div>
+
+                <div class="med-card">
+                    <div class="med-info">
+                        <div class="med-name">Aspirin</div>
+                        <div class="med-aliases">--</div>
+                    </div>
+                    <button class="view-details-btn" data-med="aspirin">Tingnan Ang Detalye</button>
+                </div>
+
+                <div class="med-card">
+                    <div class="med-info">
+                        <div class="med-name">Mefenamic Acid</div>
+                        <div class="med-aliases">Dolfenal, Ponstan</div>
+                    </div>
+                    <button class="view-details-btn" data-med="mefenamic">Tingnan Ang Detalye</button>
+                </div>
+
+                <div class="med-card">
+                    <div class="med-info">
+                        <div class="med-name">Tramadol</div>
+                        <div class="med-aliases">--</div>
+                    </div>
+                    <button class="view-details-btn" data-med="tramadol">Tingnan Ang Detalye</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ANTI-INFECTION -->
+        <div class="category-card">
+            <div class="category-title">
+                <i class="fas fa-virus"></i> MGA GAMOT LABAN SA INFESYON (ANTIBIOTIC, ANTIFUNGAL, ANTIVIRAL)
+            </div>
+            <div class="meds-list">
+                <div class="med-card">
+                    <div class="med-info">
+                        <div class="med-name">Amoxicillin</div>
+                        <div class="med-aliases">--</div>
+                    </div>
+                    <button class="view-details-btn" data-med="amoxicillin">Tingnan Ang Detalye</button>
+                </div>
+
+                <div class="med-card">
+                    <div class="med-info">
+                        <div class="med-name">Amoxicillin + Clavulanic Acid</div>
+                        <div class="med-aliases">Augmentin</div>
+                    </div>
+                    <button class="view-details-btn" data-med="augmentin">Tingnan Ang Detalye</button>
+                </div>
+
+                <div class="med-card">
+                    <div class="med-info">
+                        <div class="med-name">Azithromycin</div>
+                        <div class="med-aliases">--</div>
+                    </div>
+                    <button class="view-details-btn" data-med="azithromycin">Tingnan Ang Detalye</button>
+                </div>
+
+                <div class="med-card">
+                    <div class="med-info">
+                        <div class="med-name">Fluconazole</div>
+                        <div class="med-aliases">Diflucan</div>
+                    </div>
+                    <button class="view-details-btn" data-med="fluconazole">Tingnan Ang Detalye</button>
+                </div>
+
+                <div class="med-card">
+                    <div class="med-info">
+                        <div class="med-name">Acyclovir</div>
+                        <div class="med-aliases">--</div>
+                    </div>
+                    <button class="view-details-btn" data-med="acyclovir">Tingnan Ang Detalye</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- COLD, COUGH, ALLERGY -->
+        <div class="category-card">
+            <div class="category-title">
+                <i class="fas fa-head-side-cough-slash"></i> PARA SA SIPON, UBO, ALLERGY, ASTHMA
+            </div>
+            <div class="meds-list">
+                <div class="med-card">
+                    <div class="med-info">
+                        <div class="med-name">Loratadine</div>
+                        <div class="med-aliases">Claritin</div>
+                    </div>
+                    <button class="view-details-btn" data-med="loratadine">Tingnan Ang Detalye</button>
+                </div>
+
+                <div class="med-card">
+                    <div class="med-info">
+                        <div class="med-name">Carbocisteine</div>
+                        <div class="med-aliases">Solmux, Loviscol</div>
+                    </div>
+                    <button class="view-details-btn" data-med="carbocisteine">Tingnan Ang Detalye</button>
+                </div>
+
+                <div class="med-card">
+                    <div class="med-info">
+                        <div class="med-name">Salbutamol</div>
+                        <div class="med-aliases">Ventolin</div>
+                    </div>
+                    <button class="view-details-btn" data-med="salbutamol">Tingnan Ang Detalye</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STOMACH, DIGESTION -->
+        <div class="category-card">
+            <div class="category-title">
+                <i class="fas fa-stomach"></i> PARA SA TIYAN, PAGTUNAW, AT DAPUNAN
+            </div>
+            <div class="meds-list">
+                <div class="med-card">
+                    <div class="med-info">
+                        <div class="med-name">Omeprazole</div>
+                        <div class="med-aliases">--</div>
+                    </div>
+                    <button class="view-details-btn" data-med="omeprazole">Tingnan Ang Detalye</button>
+                </div>
+
+                <div class="med-card">
+                    <div class="med-info">
+                        <div class="med-name">Loperamide</div>
+                        <div class="med-aliases">Imodium, Diatabs</div>
+                    </div>
+                    <button class="view-details-btn" data-med="loperamide">Tingnan Ang Detalye</button>
+                </div>
+
+                <div class="med-card">
+                    <div class="med-info">
+                        <div class="med-name">Oresol / ORS</div>
+                        <div class="med-aliases">--</div>
+                    </div>
+                    <button class="view-details-btn" data-med="oresol">Tingnan Ang Detalye</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MEDICINE DETAILS MODAL -->
+    <div class="med-modal" id="medModal">
+        <div class="modal-content">
+            <button class="close-modal-btn" id="closeModalBtn">&times;</button>
+            <div class="modal-med-name" id="modalMedName"></div>
+            <div class="modal-med-aliases" id="modalMedAliases"></div>
+            
+            <div class="modal-section-title"><i class="fas fa-pills"></i> Para sa Ano?</div>
+            <div class="modal-text" id="modalMedUses"></div>
+            
+            <div class="modal-section-title"><i class="fas fa-exclamation-circle"></i> Mga Paalala</div>
+            <div class="modal-text" id="modalMedWarnings"></div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="powered-by">Powered by Patrick Ongog Web Developer</div>
+        <div class="disclaimer">
+            © 2026 DAFTAR NG GAMOT – LAHAT NG IMPORMASYON AY PARA SA REFERENSYA LAMANG.<br>
+            PALAGING KUMONSULTA SA DOKTOR O PARMASYUTIKO BAGO KUMUHA NG ANUMANG GAMOT.
+        </div>
+    </footer>
+
+    <script>
+        // WARNING OVERLAY FUNCTION
+        const warningOverlay = document.getElementById('warningOverlay');
+        const confirmBtn = document.getElementById('confirmBtn');
+
+        confirmBtn.addEventListener('click', () => {
+            warningOverlay.style.opacity = '0';
+            warningOverlay.style.transition = 'opacity 0.8s ease';
+            setTimeout(() => {
+                warningOverlay.style.display = 'none';
+            }, 800);
+        });
+
+        // MEDICINE DETAILS MODAL FUNCTION
+        const medModal = document.getElementById('medModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const viewDetailsBtns = document.querySelectorAll('.view-details-btn');
+
+        // MEDICINE DATA
+        const medData = {
+            paracetamol: {
+                name: "Paracetamol",
+                aliases: "Biogesic, Tempra, Tylenol",
+                uses: "Binabawasan ang lagnat, nagpapagaan ng sakit ng ulo, katawan, ngipin, kalamnan, at banayad na sakit ng kasukasuan. Ligtas para sa mga bata at buntis kung ibibigay sa tamang dosis.",
+                warnings: "Huwag lumampas sa inirerekomendang dosis dahil maaari itong magdulot ng pinsala sa atay. Kumunsulta sa doktor kung may kasamang sakit sa atay o bato."
+            },
+            ibuprofen: {
+                name: "Ibuprofen",
+                aliases: "Advil, Alaxan, Dolan",
+                uses: "Nagpapagaan ng sakit, binababa ang lagnat, at binabawasan ang pamamaga. Ginagamit para sa arthritis, sakit ng likod, panregla, pilay, at iba pang nagpapasakit na kondisyon.",
+                warnings: "Hindi inirerekomenda para sa mga pasyenteng may sakit sa puso, mataas na presyon ng dugo, o ulser sa tiyan. Iwasan kung buntis lalo na sa huling tatlong buwan ng pagbubuntis."
+            },
+            aspirin: {
+                name: "Aspirin",
+                aliases: "--",
+                uses: "Pampagaan ng sakit, pampababa ng lagnat, at pampahina ng dugo. Pinipigilan ang atake sa puso, stroke, at pamumuo ng dugo para sa mga nasa panganib.",
+                warnings: "HINDI PARA SA MGA BATANG MAS MABABA SA 12 TAONG GULANG dahil maaari itong magdulot ng Reye's Syndrome. Iwasan kung may sakit sa tiyan o allergy sa aspirin."
+            },
+            mefenamic: {
+                name: "Mefenamic Acid",
+                aliases: "Dolfenal, Ponstan",
+                uses: "Para sa katamtaman hanggang matinding sakit tulad ng sakit ng panregla, sakit pagkatapos ng pagputol ng ngipin, sakit ng ulo, at sakit ng kasukasuan.",
+                warnings: "Huwag gamitin nang mahabang panahon nang walang payo ng doktor. Iwasan kung may sakit sa puso, bato, o atay."
+            },
+            tramadol: {
+                name: "Tramadol",
+                aliases: "--",
+                uses: "Malakas na pampagaan ng sakit para sa matinding pananakit tulad ng sakit pagkatapos ng operasyon, sakit ng kasukasuan, o sakit mula sa kanser. KAILANGAN NG RESETA NG DOKTOR.",
+                warnings: "May panganib ng pagkagumon kung hindi gagamitin ng tama. Huwag gamitin kasama ng alak o iba pang gamot na nagdudulot ng pagkaantok."
+            },
+            amoxicillin: {
+                name: "Amoxicillin",
+                aliases: "--",
+                uses: "Antibiotic na ginagamot ng iba't ibang bacterial infection tulad ng impeksyon ng lalamunan, tonsilitis, pulmonya, impeksyon ng tainga, balat, at ihi.",
+                warnings: "Kumpletuhin ang buong kurso ng pag-inom kahit bumuti na ang pakiramdam. Huwag gamitin kung allergic sa penicillin o iba pang antibiotic."
+            },
+            augmentin: {
+                name: "Amoxicillin + Clavulanic Acid",
+                aliases: "Augmentin",
+                uses: "Mas malakas na antibiotic kaysa sa purong amoxicillin. Ginagamot ng matindi o lumalaban na bacterial infection tulad ng sinusitis, bronchitis, impeksyon ng tainga, at ihi.",
+                warnings: "Maaaring magdulot ng pagtatae o sakit ng tiyan. Kunsulta sa doktor kung may kasamang sakit sa atay o bato."
+            },
+            azithromycin: {
+                name: "Azithromycin",
+                aliases: "--",
+                uses: "Antibiotic na ginagamot ng pulmonya, bronchitis, sinusitis, impeksyon ng balat, at mga sakit na nakukuha sa pakikipagtalik. May mas maikling kurso ng paggamot kaysa sa ibang antibiotic.",
+                warnings: "Iwasan kung may sakit sa puso o allergy sa macrolide antibiotics. Bumigay ng paalam sa doktor kung buntis o nagpapasuso."
+            },
+            fluconazole: {
+                name: "Fluconazole",
+                aliases: "Diflucan",
+                uses: "Antifungal na gamot para sa impeksyon ng lebadura tulad ng yeast infection sa ari, fungal infection sa bibig o lalamunan, at malubhang fungal infection sa dugo o panloob na bahagi ng katawan.",
+                warnings: "Kunsulta sa doktor kung may sakit sa atay o bato. Iwasan kung buntis maliban na lamang kung inirerekomenda ng doktor."
+            },
+            acyclovir: {
+                name: "Acyclovir",
+                aliases: "--",
+                uses: "Antiviral na gamot na ginagamot at kinokontrol ang herpes virus, kabilang ang cold sores, genital herpes, shingles, at bulutong.",
+                warnings: "Kumpletuhin ang buong kurso ng pag-inom. Kunsulta sa doktor kung may sakit sa bato o kung buntis o nagpapasuso."
+            },
+            loratadine: {
+                name: "Loratadine",
+                aliases: "Claritin",
+                uses: "Antihistamine na ginagamot ng mga sintomas ng allergy tulad ng runny nose, pangangati ng mata, pamumula ng balat, at pantal. HINDI NAGDUDULOT NG PAGKAANTOK.",
+                warnings: "Iwasan ang labis na dosis. Kunsulta sa doktor kung may kasamang sakit sa bato o atay."
+            },
+            carbocisteine: {
+                name: "Carbocisteine",
+                aliases: "Solmux, Loviscol",
+                uses: "Expectorant na pinapaluwag ang plema para maging madaling ilabas. Ginagamit para sa ubo na may plema tulad ng bronchitis, pulmonya, o sipon na may plema.",
+                warnings: "Uminom ng maraming tubig habang umiinom nito para mas epektibo. Iwasan kung may ulser sa tiyan o allergy sa carbocisteine."
+            },
+            salbutamol: {
+                name: "Salbutamol",
+                aliases: "Ventolin",
+                uses: "Bronchodilator na nagpapaluwag ng mga daanan ng hangin sa baga. Ginagamit para mapagaan ang atake ng asthma, paghingal, at pamamaga ng baga tulad ng sa bronchitis.",
+                warnings: "Huwag gamitin nang labis dahil maaari itong magdulot ng pagpapasigaw ng puso, pagkahilo, o panginginig. Kunsulta sa doktor kung hindi gumagana pa o lumalala ang kondisyon."
+            },
+            omeprazole: {
+                name: "Omeprazole",
+                aliases: "--",
+                uses: "Proton pump inhibitor na binabawasan ang produksyon ng acid sa tiyan. Ginagamot ng acid reflux, heartburn, ulser ng tiyan at duodenum, at iba pang kondisyon na dulot ng labis na acid sa tiyan.",
+                warnings: "Huwag gamitin nang mahabang panahon nang walang payo ng doktor. Bumigay ng paalam sa doktor kung buntis, nagpapasuso, o may sakit sa bato o atay."
+            },
+            loperamide: {
+                name: "Loperamide",
+                aliases: "Imodium, Diatabs",
+                uses: "Pampigil ng pagtatae sa pamamagitan ng pagpapabagal ng paggalaw ng bituka. Ginagamit para sa talamak na pagtatae o pagtatae mula sa pagkain o paglalakbay.",
+                warnings: "HINDI GAMITIN kung ang pagtatae ay may kasamang lagnat o dugo dahil maaari itong palalain ang impeksyon. Uminom ng maraming tubig at ORS para hindi mauhawat."
+            },
+            oresol: {
+                name: "Oresol / ORS",
+                aliases: "--",
+                uses: "Oral Rehydration Solution na pinapalitan ang tubig at electrolytes na nawawala mula sa pagtatae o pagsusuka. Pinipigilan ang pagkauhawat at binabawasan ang panganib ng komplikasyon mula sa pagtatae.",
+                warnings: "Ihanda ayon sa mga tagubilin sa pakete. Kung ang pasyente ay hindi makainom o may matinding pagtatae, dalhin agad sa doktor para sa intravenous fluids."
+            }
+        };
+
+        // OPEN MODAL WHEN BUTTON IS CLICKED
+        viewDetailsBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const medKey = btn.getAttribute('data-med');
+                const med = medData[medKey];
+                
+                document.getElementById('modalMedName').textContent = med.name;
+                document.getElementById('modalMedAliases').textContent = `Mga Ibang Pangalan: ${med.aliases}`;
+                document.getElementById('modalMedUses').textContent = med.uses;
+                document.getElementById('modalMedWarnings').textContent = med.warnings;
+                medModal.style.display = 'flex';
+                medModal.style.opacity = '1';
+            });
+        });
+
+        // CLOSE MODAL WHEN BUTTON IS CLICKED
+        closeModalBtn.addEventListener('click', () => {
+            medModal.style.opacity = '0';
+            setTimeout(() => {
+                medModal.style.display = 'none';
+            }, 300);
+        });
+
+        // CLOSE MODAL WHEN CLICKING OUTSIDE CONTENT
+        window.addEventListener('click', (e) => {
+            if (e.target === medModal) {
+                medModal.style.opacity = '0';
+                setTimeout(() => {
+                    medModal.style.display = 'none';
+                }, 300);
+            }
+        });
+    </script>
+</body>
+</html>
